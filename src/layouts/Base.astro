@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Analytics from '@vercel/analytics/astro';
 import { business, towns } from '../data/business';
 import { getImage } from 'astro:assets';
 import truck from '../assets/truck.jpg';
@@ -90,6 +91,7 @@ const allSchema = [localBusiness, ...schema];
     <meta name="geo.region" content="US-NJ" />
     <meta name="geo.placename" content={`${business.address.city}, ${business.address.state}`} />
     {allSchema.map((s) => <script type="application/ld+json" is:inline set:html={JSON.stringify(s)} />)}
+    <Analytics />
   </head>
   <body>
     <Header />
