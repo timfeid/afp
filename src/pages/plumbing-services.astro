@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceAside from '../components/ServiceAside.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { serviceSchema, breadcrumbSchema } from '../lib/schema';
+
+const title = 'Plumbing Repairs & Installation in Livingston, NJ';
+const description = `Licensed Livingston, NJ plumber for drains, sewers, faucets, toilets, sump pumps, water lines and gas piping. Licensed, owner operated. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Plumbing Services' }];
+const groups = [
+  { h: 'Drains & sewers', items: ['Clogged kitchen, bathroom and floor drains', 'Main sewer line clogs and backups', 'Drain cleaning and snaking', 'Sewer line repair'] },
+  { h: 'Fixtures', items: ['Faucet repair and replacement', 'Toilet repair and installation', 'Shower and tub valves and fixtures', 'Sinks, vanities and kitchen sinks', 'Garbage disposals', 'Dishwasher and refrigerator water line hookups'] },
+  { h: 'Water & gas lines', items: ['Leaking or frozen pipe repair', 'Water line repair and replacement', 'Main shutoff valve replacement', 'Gas piping for appliances, grills and generators', 'Hose bibs and outdoor faucets'] },
+  { h: 'Basement & protection', items: ['Sump pump installation and replacement', 'Battery backup sump pumps', 'Laundry hookups and utility sinks', 'Pressure reducing valves and expansion tanks'] },
+];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[
+    serviceSchema(Astro.site!, { name: 'Plumbing Repair and Installation', description, path: '/plumbing-services/' }),
+    breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname),
+  ]}
+>
+  <Hero
+    compact
+    eyebrow="Residential plumbing"
+    title="Plumbing Repairs & Installation in Livingston, NJ"
+    subtitle="From a leaky faucet to a main sewer backup, we handle the everyday plumbing that keeps your house running."
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>Full-service residential plumbing</h2>
+      <p>Water heaters and boilers are our specialty, but we handle all kinds of residential plumbing in Livingston and the surrounding towns. We take care of sewers and drains, faucets, sinks, toilets, showers and tubs, water lines, pipework, disposals, dishwashers and sump pumps. We service all makes and models, and we do both repairs and new installations.</p>
+      {groups.map((g) => (
+        <>
+          <h3>{g.h}</h3>
+          <ul class="checklist">{g.items.map((i) => <li>{i}</li>)}</ul>
+        </>
+      ))}
+
+      <h2>Why call {business.shortName}</h2>
+      <p>You get a licensed, bonded plumber ({business.license}) with more than {business.yearsExperience} years of experience, not a subcontractor or a trainee. We show up when we say we will, we explain what we found, and we charge a fair price for good work. Ask your neighbors in Livingston; there is a good chance we have worked in their house.</p>
+      <p>We serve {serviceAreaSummary}.</p>
+    </article>
+    <ServiceAside current="plumbing-services" />
+  </div>
+  <CtaBand title="Have a plumbing problem?" text={`Call ${business.phoneDisplay} and talk to a licensed plumber. Repairs, installations and honest advice.`} />
+</Base>

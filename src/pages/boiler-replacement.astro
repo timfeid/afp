@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceAside from '../components/ServiceAside.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { serviceSchema, breadcrumbSchema } from '../lib/schema';
+
+const title = 'Boiler Replacement in Livingston, NJ | Steam & Hot Water';
+const description = `Steam and hot water boiler replacement in Livingston, NJ and nearby towns, sized and installed to code by a licensed heating contractor. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Boiler Replacement' }];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[
+    serviceSchema(Astro.site!, { name: 'Boiler Replacement', description, path: '/boiler-replacement/' }),
+    breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname),
+  ]}
+>
+  <Hero
+    compact
+    eyebrow="Boiler installation & replacement"
+    title="Boiler Replacement in Livingston, NJ"
+    subtitle="Gas steam and hot water boilers replaced by a licensed heating contractor with 40+ years of experience in Livingston-area homes."
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>A new boiler, sized and installed the right way</h2>
+      <p>A boiler is the biggest piece of mechanical equipment in most homes around here, and a bad installation costs you for the next 20 years in gas bills, noise and repairs. {business.shortName} has been replacing boilers in Livingston and the surrounding towns for decades. We size the boiler to your home and your radiators, pipe it correctly, vent it safely, and pull the permit so it passes inspection.</p>
+      <p>We replace and install:</p>
+      <ul class="checklist">
+        <li><strong>Gas steam boilers</strong> for one-pipe and two-pipe steam radiator systems</li>
+        <li><strong>Gas hot water (hydronic) boilers</strong> for baseboard, radiator and radiant floor systems</li>
+        <li><strong>High-efficiency condensing boilers</strong> for hot water systems</li>
+        <li><strong>Combi boilers</strong> that provide heat and domestic hot water from one unit</li>
+        <li><strong>Indirect water heaters</strong> that run off your boiler</li>
+        <li><strong>Oil-to-gas boiler conversions</strong></li>
+      </ul>
+
+      <h2>Signs your boiler needs to be replaced</h2>
+      <ul>
+        <li><strong>Age.</strong> If your boiler is 25 years old or more, it is living on borrowed time even if it still runs.</li>
+        <li><strong>Leaking from the boiler section.</strong> A cracked cast iron section or leaking heat exchanger is not economically repairable.</li>
+        <li><strong>Rising gas bills</strong> with no change in usage, which usually means efficiency has dropped.</li>
+        <li><strong>Frequent repairs.</strong> If you have had us or another contractor out more than once in a season, replacement is usually the better investment.</li>
+        <li><strong>Uneven heat, short cycling or constant noise</strong> that service does not fix.</li>
+        <li><strong>Rust, soot or a yellow burner flame</strong>, which can point to combustion problems and should be looked at right away.</li>
+      </ul>
+      <p>If the problem sounds smaller than that, we also do <a href="/boiler-repair/">boiler and heating repair</a>. Some issues, like a failed circulator, thermocouple, low water cutoff or zone valve, are worth fixing on a boiler that otherwise has life left.</p>
+
+      <h2>What a boiler replacement includes</h2>
+      <ul class="checklist">
+        <li>Heat loss calculation or radiator survey to size the boiler correctly</li>
+        <li>Removal and disposal of the old boiler</li>
+        <li>New boiler, expansion tank, circulators or zone valves, relief valve and controls</li>
+        <li>New near-boiler piping, done to the manufacturer's specifications</li>
+        <li>Gas piping connections and venting brought up to code, including chimney liner or sidewall venting where needed</li>
+        <li>Permits and municipal inspection</li>
+        <li>System fill, purge, combustion check and full startup</li>
+        <li>A walkthrough so you know how the new system works</li>
+      </ul>
+
+      <h2>Boiler replacement in older local homes</h2>
+      <p>Many houses in Livingston, Millburn, Roseland and East Hanover were built before forced-air heat was common. They have steam or hot water boilers, cast iron radiators, and piping that has been modified a few times over the decades. This is the kind of work we have done our whole careers. We know how to match a new boiler to an old system so it heats evenly and quietly.</p>
+      <p>We serve {serviceAreaSummary}.</p>
+    </article>
+    <ServiceAside current="boiler-replacement" />
+  </div>
+  <CtaBand title="Time for a new boiler?" text={`Call ${business.phoneDisplay} to schedule an estimate. Fall is the best time to replace a boiler, before the first cold night.`} />
+</Base>

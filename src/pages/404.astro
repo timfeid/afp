@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import { services } from '../data/business';
+---
+<Base title="Page not found | Allan Feid Jr, LLC" description="That page does not exist. Find water heater, boiler and plumbing services from Allan Feid Jr, LLC in Livingston, NJ.">
+  <Hero compact title="Page not found" subtitle="That page does not exist, but we can still help." />
+  <div class="container section prose">
+    <h2>Looking for one of these?</h2>
+    <ul>
+      {services.map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}
+      <li><a href="/service-area/">Service area</a></li>
+      <li><a href="/contact/">Contact us</a></li>
+    </ul>
+  </div>
+</Base>

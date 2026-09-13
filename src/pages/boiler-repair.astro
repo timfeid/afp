@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceAside from '../components/ServiceAside.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { serviceSchema, breadcrumbSchema } from '../lib/schema';
+
+const title = 'Boiler Repair & Heating Service in Livingston, NJ';
+const description = `Boiler repair in Livingston, NJ. No heat, banging pipes and cold radiators on steam and hot water systems fixed by a licensed contractor. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Boiler & Heating Repair' }];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[
+    serviceSchema(Astro.site!, { name: 'Boiler and Heating Repair', description, path: '/boiler-repair/' }),
+    breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname),
+  ]}
+>
+  <Hero
+    compact
+    eyebrow="Heating service"
+    title="Boiler Repair & Heating Service in Livingston, NJ"
+    subtitle="Steam and hot water boiler repair, annual service and no-heat calls from a licensed heating contractor with 40+ years of experience."
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>Boiler and heating problems we fix</h2>
+      <ul class="checklist">
+        <li><strong>No heat</strong> or boiler will not fire</li>
+        <li><strong>Pilot and ignition</strong> problems, thermocouples, igniters and flame sensors</li>
+        <li><strong>Banging, knocking or hammering</strong> pipes on steam systems</li>
+        <li><strong>Radiators not heating</strong> or heating unevenly</li>
+        <li><strong>Circulator pump</strong> and zone valve replacement</li>
+        <li><strong>Low water cutoff</strong> and automatic feeder problems on steam boilers</li>
+        <li><strong>Boiler pressure</strong> too high or too low, relief valve discharging</li>
+        <li><strong>Expansion tank</strong> replacement</li>
+        <li><strong>Leaking pipes, valves and fittings</strong> around the boiler</li>
+        <li><strong>Thermostat</strong> and control replacement</li>
+        <li><strong>Steam air vents</strong> and main vents</li>
+        <li><strong>Annual boiler cleaning and tune-up</strong></li>
+      </ul>
+
+      <h2>Steam heat specialists</h2>
+      <p>A lot of the homes we work on in Livingston and Millburn have one-pipe steam heat that has been in place for 70 years or more. Steam is a simple, durable system when it is set up right, but many contractors do not understand it. We have been working on steam boilers our whole careers. If your system bangs, heats unevenly, or eats water, we can fix it.</p>
+
+      <h2>Annual boiler service</h2>
+      <p>The best way to avoid a no-heat call in January is a service visit in the fall. Our annual boiler service includes cleaning the burners and flue passages, checking the combustion, testing the safety controls, checking the low water cutoff and relief valve, inspecting the venting, and looking over the piping for leaks. If we find a problem, we tell you about it before it fails.</p>
+
+      <h2>When repair is not the answer</h2>
+      <p>We will repair a boiler as long as it makes sense. But if the boiler is 25 years old or more, has a cracked section or leaking heat exchanger, or needs a second major repair in one season, we will recommend <a href="/boiler-replacement/">replacement</a>. A new, properly sized boiler is more reliable, quieter, and cheaper to run.</p>
+      <p>We serve {serviceAreaSummary}.</p>
+    </article>
+    <ServiceAside current="boiler-repair" />
+  </div>
+  <CtaBand title="No heat, or a boiler that needs attention?" text={`Call ${business.phoneDisplay}. We service steam and hot water boilers of every make and model.`} />
+</Base>

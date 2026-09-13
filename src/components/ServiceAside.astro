@@ -1,0 +1,18 @@
+---
+import { business, services } from '../data/business';
+interface Props { current?: string; }
+const { current } = Astro.props;
+---
+<aside class="aside">
+  <h3>Talk to a licensed plumber</h3>
+  <a class="phone" href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>
+  <p style="margin:0 0 12px;color:var(--muted);font-size:0.95rem;">{business.hoursDisplay}</p>
+  <a class="btn btn--primary" href="/contact/" style="width:100%;justify-content:center;">Request Service</a>
+  <h3 style="margin-top:24px;">Our Services</h3>
+  <ul>
+    {services.map((s) => (
+      <li>{s.slug === current ? <strong>{s.name}</strong> : <a href={`/${s.slug}/`}>{s.name}</a>}</li>
+    ))}
+  </ul>
+  <p style="margin:0;font-size:0.9rem;color:var(--muted);">{business.license}<br />Owner operated · Est. {business.llcFormed}</p>
+</aside>

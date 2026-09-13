@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceAside from '../components/ServiceAside.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { serviceSchema, breadcrumbSchema } from '../lib/schema';
+
+const title = 'Water Heater Repair in Livingston, NJ | Allan Feid Jr, LLC';
+const description = `Water heater repair in Livingston, NJ. No hot water, pilot out, leaks and noisy tanks fixed by a licensed plumber. Honest advice. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Water Heater Repair' }];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[
+    serviceSchema(Astro.site!, { name: 'Water Heater Repair', description, path: '/water-heater-repair/' }),
+    breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname),
+  ]}
+>
+  <Hero
+    compact
+    eyebrow="Water heater service"
+    title="Water Heater Repair in Livingston, NJ"
+    subtitle="No hot water? Pilot out? Leaking? We diagnose the problem, fix what is worth fixing, and tell you honestly when it is time to replace."
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>Water heater problems we repair</h2>
+      <ul class="checklist">
+        <li><strong>No hot water</strong> on gas or electric units</li>
+        <li><strong>Pilot light will not stay lit</strong>, thermocouple and pilot assembly replacement</li>
+        <li><strong>Gas valve and thermostat</strong> failures</li>
+        <li><strong>Electric heating elements</strong> and thermostats</li>
+        <li><strong>Leaking fittings, drain valves and relief valves</strong></li>
+        <li><strong>Temperature and pressure relief valve</strong> dripping or discharging</li>
+        <li><strong>Power-vent blower and pressure switch</strong> problems</li>
+        <li><strong>Sediment flush</strong> and anode rod replacement to extend tank life</li>
+      </ul>
+
+      <h2>Repair or replace? Here is how we decide.</h2>
+      <p>We are not in the business of selling you a water heater you do not need. When we come out, we look at the age of the unit, the condition of the tank, and what the repair would cost. If the tank is under 8 years old and the fix is a thermocouple, element, valve or blower, repair almost always makes sense. If the tank is over 10 years old, is corroding, or needs an expensive part, we will recommend <a href="/water-heater-replacement/">replacement</a> and explain why.</p>
+      <p>A tank that is leaking from the body is never repairable. If you see water pooling around the base and it is coming from the tank, turn off the cold water supply valve on top of the unit and call us.</p>
+
+      <h2>What to do while you wait</h2>
+      <ol>
+        <li><strong>Gas unit with no hot water:</strong> check that the gas is on and the pilot is lit. If you smell gas, leave the house and call the gas company first.</li>
+        <li><strong>Electric unit with no hot water:</strong> check the breaker. If it has tripped, reset it once. If it trips again, leave it off and call us.</li>
+        <li><strong>Leaking unit:</strong> shut the cold water supply valve on top of the heater and, for electric units, shut off the breaker.</li>
+      </ol>
+      <p>We serve {serviceAreaSummary}.</p>
+    </article>
+    <ServiceAside current="water-heater-repair" />
+  </div>
+  <CtaBand title="Water heater acting up?" text={`Call ${business.phoneDisplay}. We will get the hot water back on and tell you honestly whether the unit is worth repairing.`} />
+</Base>

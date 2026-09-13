@@ -1,0 +1,58 @@
+---
+import { business, towns, services } from '../data/business';
+const year = new Date().getFullYear();
+const addr = business.address;
+---
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <h3>{business.name}</h3>
+      <p>Plumbing &amp; heating contractor serving Livingston, Millburn, Roseland and East Hanover. Owner operated, established {business.llcFormed}.</p>
+      <p>
+        {addr.showStreet && <>{addr.street}<br /></>}
+        {addr.city}, {addr.state} {addr.zip}<br />
+        <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a><br />
+        <a href={`mailto:${business.email}`}>{business.email}</a>
+      </p>
+      <p>{business.hoursDisplay}<br />{business.license}</p>
+    </div>
+    <div>
+      <h3>Services</h3>
+      <ul>
+        {services.map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h3>Service Area</h3>
+      <ul>
+        {towns.map((t) => <li><a href={`/service-area/${t.slug}/`}>{t.name}</a></li>)}
+      </ul>
+      <p><a href="/service-area/">View full service area</a></p>
+    </div>
+    <div>
+      <h3>Company</h3>
+      <ul>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href={business.googleMapsUrl} rel="noopener" target="_blank">Find us on Google</a></li>
+        <li><a href={business.googleReviewUrl} rel="noopener" target="_blank">Leave a Google review</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© {year} {business.name}. All rights reserved.</span>
+    <span>Licensed &amp; bonded · {business.license}</span>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--navy-dark); color: rgba(255,255,255,0.85); margin-top: 40px; }
+  .footer__grid { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); padding-block: 48px 24px; }
+  .footer h3 { color: #fff; font-size: 1.05rem; margin-bottom: 12px; }
+  .footer ul { list-style: none; padding: 0; margin: 0; }
+  .footer li { margin-bottom: 6px; }
+  .footer a { color: #fff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+  .footer__towns { columns: 2; }
+  .footer__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-block: 16px 24px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.85rem; }
+</style>

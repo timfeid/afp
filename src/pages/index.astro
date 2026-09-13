@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ReviewBadge from '../components/ReviewBadge.astro';
+import { business, services, towns } from '../data/business';
+import bathroom from '../assets/bathroom.jpg';
+import sink from '../assets/sink.jpg';
+
+const title = 'Water Heater & Boiler Replacement | Livingston, NJ Plumber';
+const description = `Licensed Livingston, NJ plumber for water heater replacement, boiler replacement and plumbing repairs. Licensed, owner operated. Call ${business.phoneDisplay}.`;
+
+const primary = services.filter((s) => s.primary);
+---
+<Base title={title} description={description}>
+  <Hero
+    eyebrow="Licensed plumbing & heating · Livingston, NJ"
+    title="Water Heater & Boiler Replacement in Livingston, NJ"
+    subtitle={`Owner operated and licensed. We replace water heaters and boilers, repair heating systems, and handle everyday plumbing for homeowners in Livingston, Millburn, Roseland and East Hanover.`}
+    showImage
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">What we do best</p>
+      <h2>Water heaters and boilers, done right the first time</h2>
+      <p class="lead" style="max-width:720px">Most of our work is replacing water heaters and boilers in homes just like yours. We size the equipment properly, install it to code, pull the permit, and haul away the old unit.</p>
+      <div class="grid grid--3" style="margin-top:28px">
+        {primary.map((s) => (
+          <div class="card card--accent">
+            <h3><a href={`/${s.slug}/`} style="text-decoration:none">{s.name}</a></h3>
+            <p>{s.short}</p>
+            <a class="card-link" href={`/${s.slug}/`}>Learn more →</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Why homeowners call us</p>
+        <h2>A Livingston plumber with 40+ years in the trade</h2>
+        <p>Allan Feid Jr. has spent more than {business.yearsExperience} years doing plumbing and heating work in Livingston-area homes and formed Allan Feid Jr, LLC in {business.llcFormed}. When you call, you are talking to the person who will be doing the work.</p>
+        <ul class="checklist">
+          <li><strong>Licensed and bonded.</strong> {business.license}. Permits pulled, inspections passed.</li>
+          <li><strong>{business.yearsExperience}+ years of hands-on experience.</strong> Allan has installed and serviced every make and model of water heater and boiler you are likely to have.</li>
+          <li><strong>Honest recommendations.</strong> If a repair makes sense, we will tell you. If it is time to replace, we will explain why.</li>
+          <li><strong>Local and quick.</strong> We are in Livingston, so most service calls in the area are a short drive.</li>
+        </ul>
+        <div style="margin-top:16px"><ReviewBadge /></div>
+      </div>
+      <div class="grid" style="gap:16px">
+        <div class="figure"><Image src={bathroom} alt="Bathroom plumbing installation by Allan Feid Jr in Livingston, NJ" width={800} widths={[400, 800]} sizes="(max-width: 900px) 100vw, 440px" /></div>
+        <div class="figure"><Image src={sink} alt="Kitchen sink and faucet installation in Essex County, NJ" width={800} widths={[400, 800]} sizes="(max-width: 900px) 100vw, 440px" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container">
+      <div class="stat-row">
+        <div class="stat"><strong>{business.llcFormed}</strong><span>Allan Feid Jr, LLC established</span></div>
+        <div class="stat"><strong>{business.yearsExperience}+</strong><span>years of experience</span></div>
+        <div class="stat"><strong>#{business.licenseNumber}</strong><span>NJ Master Plumber License</span></div>
+        <div class="stat"><strong>All</strong><span>makes &amp; models serviced</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Service area</p>
+      <h2>Serving Livingston and neighboring towns</h2>
+      <p class="lead" style="max-width:720px">Based in Livingston, NJ, we serve homeowners in these towns. If you are just outside them, call us and ask.</p>
+      <ul class="town-list" style="margin-top:20px">
+        {towns.map((t) => <li><a href={`/service-area/${t.slug}/`}>{t.name}, NJ</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+
+  <CtaBand />
+</Base>

@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceAside from '../components/ServiceAside.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { serviceSchema, breadcrumbSchema } from '../lib/schema';
+
+const title = 'Water Heater Replacement in Livingston, NJ | Allan Feid Jr';
+const description = `Water heater replacement in Livingston, NJ. Gas, electric and power-vent units installed to code by a licensed plumber. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Water Heater Replacement' }];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[
+    serviceSchema(Astro.site!, { name: 'Water Heater Replacement', description, path: '/water-heater-replacement/' }),
+    breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname),
+  ]}
+>
+  <Hero
+    compact
+    eyebrow="Water heater installation & replacement"
+    title="Water Heater Replacement in Livingston, NJ"
+    subtitle="Fast, code-compliant water heater replacement for homeowners in Livingston, Millburn, Roseland and East Hanover. Gas, electric and power-vent."
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>No hot water? We can usually replace your water heater today or tomorrow.</h2>
+      <p>A failed water heater does not wait for a convenient time. When you call {business.shortName}, you get a licensed plumber who has replaced hundreds of water heaters in homes across Livingston, Millburn, Roseland and East Hanover. We show up with the right unit, install it to code, pull the permit, and take the old one away.</p>
+      <p>We replace and install every common type of residential water heater:</p>
+      <ul class="checklist">
+        <li><strong>Gas tank water heaters</strong> (40, 50 and 75 gallon, standard and high-recovery)</li>
+        <li><strong>Power-vent and direct-vent gas water heaters</strong> for homes without a usable chimney</li>
+        <li><strong>Electric tank water heaters</strong></li>
+        <li><strong>Hybrid heat pump water heaters</strong> for lower electric bills</li>
+      </ul>
+
+      <h2>Signs it is time to replace your water heater</h2>
+      <p>Some water heater problems are worth repairing. Others mean the tank is done. Call us for a replacement if you notice:</p>
+      <ul>
+        <li><strong>Age over 10 years.</strong> Check the serial number on the label. Once a tank passes 10 to 12 years, failure is a matter of when, not if.</li>
+        <li><strong>Water pooling around the base.</strong> A leak from the tank itself cannot be repaired. Shut off the cold water supply and call us.</li>
+        <li><strong>Rusty or discolored hot water.</strong> This usually means the tank is corroding from the inside.</li>
+        <li><strong>Rumbling, popping or banging.</strong> Sediment buildup on the bottom of the tank makes it work harder and shortens its life.</li>
+        <li><strong>Not enough hot water.</strong> If showers run cold sooner than they used to, the tank may be losing capacity to sediment or a failing element.</li>
+        <li><strong>Repeated repairs.</strong> When the thermocouple, gas valve or elements keep failing on an older unit, the money is better spent on a new one.</li>
+      </ul>
+      <p>Not sure whether it is a repair or a replacement? See our <a href="/water-heater-repair/">water heater repair page</a> or just call. We will tell you honestly.</p>
+
+      <h2>What is included in a water heater replacement</h2>
+      <ul class="checklist">
+        <li>Shutting down and draining the old unit</li>
+        <li>Removal and disposal of the old water heater</li>
+        <li>New water heater from a major manufacturer, sized to your household</li>
+        <li>New supply connections, shutoff valve, and temperature and pressure relief discharge line</li>
+        <li>Expansion tank where required by code</li>
+        <li>Gas line and venting connections checked and brought up to code</li>
+        <li>Plumbing permit and municipal inspection</li>
+        <li>Full test, temperature set, and a walkthrough of the new unit</li>
+      </ul>
+
+      <h2>Why choose {business.shortName} for your water heater</h2>
+      <p>Allan Feid Jr. has more than {business.yearsExperience} years of experience and personally handles the work. We are fully licensed and bonded ({business.license}), we service all makes and models, and we install the same quality equipment we would put in our own homes.</p>
+      <p>We serve {serviceAreaSummary}. Because we are local, we can usually get to you quickly when the hot water is out.</p>
+    </article>
+    <ServiceAside current="water-heater-replacement" />
+  </div>
+  <CtaBand title="Need a new water heater in Livingston or nearby?" text={`Call ${business.phoneDisplay} for a straight answer and a fair price. We are usually able to replace a failed water heater within a day.`} />
+</Base>

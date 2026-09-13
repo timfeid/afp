@@ -1,0 +1,110 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { business } from '../../data/business';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Contact Allan Feid Jr, LLC | Plumber in Livingston, NJ';
+const description = `Call ${business.phoneDisplay} or send a message to schedule water heater, boiler or plumbing service in Livingston, NJ and nearby towns.`;
+const crumbs = [{ label: 'Contact' }];
+const addr = business.address;
+const mapQuery = encodeURIComponent(`${business.name}, ${addr.city}, ${addr.state}`);
+---
+<Base title={title} description={description} schema={[breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname)]}>
+  <Hero compact eyebrow="Get in touch" title="Contact Us" subtitle="Call for the fastest response, or send a message and we will get back to you." />
+  <div class="container section two-col">
+    <div>
+      <Breadcrumbs items={crumbs} />
+      <h2>Request service</h2>
+      <p class="lead">Tell us what is going on and how to reach you. We need either an email or a phone number.</p>
+      <p id="form-error" class="form-error" hidden role="alert"></p>
+      <form class="form" method="post" action="/api/contact/" novalidate>
+        <div class="field">
+          <label for="name">Name <span aria-hidden="true">*</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" />
+        </div>
+        <div class="grid grid--2" style="gap:16px">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="200" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="details">What do you need help with?</label>
+          <textarea id="details" name="details" rows="5" maxlength="4000" placeholder="Example: 50 gallon gas water heater is leaking at the bottom. Livingston."></textarea>
+        </div>
+        <div class="field field--hp" aria-hidden="true">
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <button class="btn btn--primary" type="submit">Send Message</button>
+        <p class="form-note">Prefer to talk? Call <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a> during business hours.</p>
+      </form>
+    </div>
+    <div>
+      <div class="aside" style="position:static">
+        <h3>{business.name}</h3>
+        <a class="phone" href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>
+        <p><a href={`mailto:${business.email}`}>{business.email}</a></p>
+        <p>
+          {addr.showStreet && <>{addr.street}<br /></>}
+          {addr.city}, {addr.state} {addr.zip}
+        </p>
+        <p><strong>Hours</strong><br />{business.hoursDisplay}<br />Saturday and Sunday: Closed</p>
+        <p style="margin:0"><strong>{business.license}</strong><br />Licensed &amp; bonded</p>
+      </div>
+      <div class="figure" style="margin-top:20px;aspect-ratio:4/3">
+        <iframe
+          title={`Map of ${business.name} service area in Livingston, NJ`}
+          src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+          width="100%" height="100%" style="border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var messages = {
+        name: 'Please enter your name.',
+        contact: 'Please enter an email address or a phone number so we can reach you.',
+        email: 'That email address does not look right. Please check it.',
+        send: 'Sorry, the message could not be sent. Please call us at ' + '(973) 992-2240' + ' instead.',
+        invalid: 'Something went wrong with the form. Please try again or call us.'
+      };
+      var code = new URLSearchParams(location.search).get('error');
+      var box = document.getElementById('form-error');
+      if (code && messages[code]) { box.textContent = messages[code]; box.hidden = false; }
+
+      var form = document.querySelector('form.form');
+      form.addEventListener('submit', function (e) {
+        var name = form.name.value.trim();
+        var email = form.email.value.trim();
+        var phone = form.phone.value.trim();
+        var err = '';
+        if (!name) err = messages.name;
+        else if (!email && !phone) err = messages.contact;
+        else if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) err = messages.email;
+        if (err) { e.preventDefault(); box.textContent = err; box.hidden = false; box.scrollIntoView({ block: 'center' }); }
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .form { display: grid; gap: 16px; max-width: 640px; }
+  .field { display: grid; gap: 6px; }
+  .field label { font-weight: 700; font-size: 0.95rem; }
+  .field input, .field textarea {
+    font: inherit; padding: 12px 14px; border: 1px solid #c5ccd3; border-radius: 8px; background: #fff; width: 100%;
+  }
+  .field input:focus, .field textarea:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
+  .field--hp { position: absolute; left: -9999px; }
+  .form-error { background: #fdecea; color: #8a1c1c; border: 1px solid #f5c2c0; padding: 12px 14px; border-radius: 8px; font-weight: 600; }
+  .form-note { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .form .btn { justify-self: start; }
+</style>

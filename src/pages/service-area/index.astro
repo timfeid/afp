@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { business, towns } from '../../data/business';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Service Area | Livingston, Millburn, Roseland, East Hanover';
+const description = `Water heater, boiler and plumbing service in Livingston, Millburn, Roseland and East Hanover, NJ. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Service Area' }];
+const essex = towns.filter((t) => t.county === 'Essex');
+const morris = towns.filter((t) => t.county === 'Morris');
+---
+<Base title={title} description={description} schema={[breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname)]}>
+  <Hero compact eyebrow="Where we work" title="Plumbing & Heating Service Area" subtitle="Based in Livingston, NJ and serving Millburn, Roseland and East Hanover." />
+  <div class="container section">
+    <Breadcrumbs items={crumbs} />
+    <div class="prose">
+      <p class="lead">We are located in Livingston, so every town we serve is a short drive. That means faster response when your water heater fails or the heat goes out, and it means we know the homes in these towns. If you are just outside this area, call us and ask.</p>
+    </div>
+    <div class="grid grid--2" style="margin-top:32px">
+      <div>
+        <h2>Essex County</h2>
+        <div class="grid" style="gap:12px">
+          {essex.map((t) => (
+            <div class="card">
+              <h3><a href={`/service-area/${t.slug}/`} style="text-decoration:none">{t.name}, NJ</a></h3>
+              <p>{t.blurb}</p>
+              <a class="card-link" href={`/service-area/${t.slug}/`}>Plumber in {t.name} →</a>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h2>Morris County</h2>
+        <div class="grid" style="gap:12px">
+          {morris.map((t) => (
+            <div class="card">
+              <h3><a href={`/service-area/${t.slug}/`} style="text-decoration:none">{t.name}, NJ</a></h3>
+              <p>{t.blurb}</p>
+              <a class="card-link" href={`/service-area/${t.slug}/`}>Plumber in {t.name} →</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <CtaBand />
+</Base>

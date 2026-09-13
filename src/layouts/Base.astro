@@ -1,0 +1,101 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { business, towns } from '../data/business';
+import { getImage } from 'astro:assets';
+import truck from '../assets/truck.jpg';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: Record<string, unknown>[];
+  ogType?: string;
+  noindex?: boolean;
+}
+
+const { title, description, schema = [], ogType = 'website', noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = await getImage({ src: truck, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogUrl = new URL(ogImage.src, Astro.site);
+
+const postalAddress: Record<string, string> = {
+  '@type': 'PostalAddress',
+  addressLocality: business.address.city,
+  addressRegion: business.address.state,
+  postalCode: business.address.zip,
+  addressCountry: 'US',
+};
+if (business.address.showStreet) postalAddress.streetAddress = business.address.street;
+
+const localBusiness: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Plumber',
+  '@id': `${Astro.site}#business`,
+  name: business.name,
+  url: String(Astro.site),
+  telephone: business.phoneTel,
+  email: business.email,
+  image: String(ogUrl),
+  logo: new URL('/favicon.svg', Astro.site).toString(),
+  address: postalAddress,
+  areaServed: towns.map((t) => ({ '@type': 'City', name: `${t.name}, NJ` })),
+  openingHoursSpecification: business.openingHours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days,
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  foundingDate: String(business.llcFormed),
+  priceRange: '$$',
+  sameAs: [business.googleMapsUrl, ...business.sameAs],
+  hasCredential: {
+    '@type': 'EducationalOccupationalCredential',
+    credentialCategory: 'license',
+    name: business.license,
+  },
+  knowsAbout: ['Water heater replacement', 'Boiler replacement', 'Plumbing repair', 'Heating repair'],
+};
+if (business.rating && business.reviewCount) {
+  localBusiness.aggregateRating = {
+    '@type': 'AggregateRating',
+    ratingValue: business.rating,
+    reviewCount: business.reviewCount,
+  };
+}
+
+const allSchema = [localBusiness, ...schema];
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0f3d6e" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="geo.region" content="US-NJ" />
+    <meta name="geo.placename" content={`${business.address.city}, ${business.address.state}`} />
+    {allSchema.map((s) => <script type="application/ld+json" is:inline set:html={JSON.stringify(s)} />)}
+  </head>
+  <body>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

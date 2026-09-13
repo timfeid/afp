@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ServiceAside from '../../components/ServiceAside.astro';
+import { business, towns, services } from '../../data/business';
+import { breadcrumbSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return towns.map((t) => ({ params: { town: t.slug }, props: { town: t } }));
+}
+const { town } = Astro.props;
+const isHome = town.slug === 'livingston';
+const title = `Plumber & Water Heaters in ${town.name}, NJ | Allan Feid Jr`;
+const description = `Licensed plumber serving ${town.name}, NJ for water heater replacement, boiler replacement and plumbing repairs. Licensed, owner operated. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Service Area', href: '/service-area/' }, { label: `${town.name}, NJ` }];
+const others = towns.filter((t) => t.slug !== town.slug);
+const townService = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: `Plumbing and heating services in ${town.name}, NJ`,
+  provider: { '@id': `${Astro.site}#business` },
+  areaServed: { '@type': 'City', name: `${town.name}, NJ` },
+  url: new URL(Astro.url.pathname, Astro.site).toString(),
+};
+---
+<Base title={title} description={description} schema={[townService, breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname)]}>
+  <Hero
+    compact
+    eyebrow={`${town.county} County, NJ`}
+    title={`Plumber & Heating Contractor in ${town.name}, NJ`}
+    subtitle={`Water heater replacement, boiler replacement and plumbing repairs for ${town.name} homeowners from a licensed, family-owned contractor based in nearby Livingston.`}
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>Water heaters, boilers and plumbing in {town.name}</h2>
+      <p>{town.blurb}</p>
+      <p>{business.name} is a licensed and bonded plumbing and heating contractor ({business.license}). Allan Feid Jr. has more than {business.yearsExperience} years of experience and does the work himself.</p>
+
+      <h2>Services we provide in {town.name}</h2>
+      <div class="grid grid--2" style="gap:12px">
+        {services.map((s) => (
+          <div class="card">
+            <h3 style="font-size:1.05rem"><a href={`/${s.slug}/`} style="text-decoration:none">{s.name}</a></h3>
+            <p style="font-size:0.95rem">{s.short}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2>Water heater replacement in {town.name}</h2>
+      <p>When a water heater fails, you want it replaced quickly and correctly. We install gas, electric and power-vent water heaters, pull the permit with {town.name}, and haul the old unit away. Most standard replacements are done the same or next day. <a href="/water-heater-replacement/">Learn more about water heater replacement.</a></p>
+
+      <h2>Boiler replacement and heating repair in {town.name}</h2>
+      <p>Many {town.name} homes are heated by steam or hot water boilers, and a lot of those boilers are past their expected life. We replace steam and hot water boilers, sized correctly for your radiators, and we repair the ones that still have life left. <a href="/boiler-replacement/">Learn more about boiler replacement</a> or <a href="/boiler-repair/">boiler repair</a>.</p>
+
+      <h2>Everyday plumbing in {town.name}</h2>
+      <p>Clogged drains, sewer backups, leaking faucets, running toilets, sump pumps, water lines and gas piping. If it is plumbing in a house, we do it. <a href="/plumbing-services/">See all plumbing services.</a></p>
+
+      <h2>Other towns we serve</h2>
+      <ul class="town-list">
+        {others.map((t) => <li><a href={`/service-area/${t.slug}/`}>{t.name}, NJ</a></li>)}
+      </ul>
+    </article>
+    <ServiceAside />
+  </div>
+  <CtaBand title={`Need a plumber in ${town.name}?`} text={`Call ${business.phoneDisplay}. We are based in Livingston and serve ${town.name} homeowners for water heaters, boilers and plumbing repairs.`} />
+</Base>

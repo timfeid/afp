@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ReviewBadge from '../components/ReviewBadge.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { breadcrumbSchema } from '../lib/schema';
+import truck from '../assets/truck.jpg';
+
+const title = 'About Allan Feid Jr, LLC | Livingston, NJ Plumber';
+const description = `Allan Feid Jr, LLC is an owner-operated, licensed plumbing and heating contractor in Livingston, NJ, serving Livingston, Millburn, Roseland and East Hanover.`;
+const crumbs = [{ label: 'About' }];
+---
+<Base title={title} description={description} schema={[breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname)]}>
+  <Hero compact eyebrow="Owner operated" title="About Allan Feid Jr, LLC" subtitle="Licensed plumbing and heating in Livingston, New Jersey, by the person who answers the phone." />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>More than {business.yearsExperience} years in the trade</h2>
+      <p>Allan Feid Jr. grew up in the plumbing trade and has spent more than {business.yearsExperience} years working on the heating and plumbing systems in Livingston-area homes. He has installed and serviced every common make and model of water heater and boiler, and he has seen what goes wrong with them.</p>
+      <p>In {business.llcFormed}, he established Allan Feid Jr, LLC. The company focuses on what Allan does best: water heater and boiler replacement, heating repair, and the everyday plumbing that keeps a house running.</p>
+
+      <h2>What you can expect from us</h2>
+      <ul class="checklist">
+        <li><strong>The owner does the work.</strong> When you call, you talk to Allan. When we show up, it is Allan doing the job.</li>
+        <li><strong>Licensed and bonded.</strong> {business.license}. We pull permits and our work passes inspection.</li>
+        <li><strong>{business.yearsExperience}+ years of experience.</strong> We have worked on every make and model of water heater and boiler found in local homes.</li>
+        <li><strong>Prompt, courteous service.</strong> Business hours are {business.hoursDisplay}. We tell you when we are coming and we show up.</li>
+        <li><strong>Straight answers.</strong> If a repair makes sense, we say so. If it is time to replace, we explain why and give you options.</li>
+      </ul>
+
+      <h2>Where we work</h2>
+      <p>We are based in Livingston and serve {serviceAreaSummary}. See the full <a href="/service-area/">service area</a>.</p>
+
+      <div style="margin:24px 0"><ReviewBadge /></div>
+      <p>If we have done work for you, a <a href={business.googleReviewUrl} target="_blank" rel="noopener">Google review</a> is the best thank-you we can get. It helps your neighbors find a plumber they can trust.</p>
+    </article>
+    <div class="figure"><Image src={truck} alt={`Allan Feid Jr with the ${business.name} service truck`} width={900} widths={[480, 900]} sizes="(max-width: 900px) 100vw, 420px" /></div>
+  </div>
+  <CtaBand />
+</Base>

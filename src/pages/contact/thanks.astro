@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import { business } from '../../data/business';
+---
+<Base title="Thanks, we got your message | Allan Feid Jr, LLC" description="Your message has been sent to Allan Feid Jr, LLC. We will get back to you during business hours." noindex>
+  <Hero compact title="Thanks, we got your message" subtitle="We will get back to you during business hours. If it is urgent, please call." />
+  <div class="container section prose">
+    <p class="lead">Business hours are {business.hoursDisplay}. For a faster response, call <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>.</p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={`tel:${business.phoneTel}`}>Call {business.phoneDisplay}</a>
+      <a class="btn btn--outline" href="/">Back to home</a>
+    </div>
+  </div>
+</Base>

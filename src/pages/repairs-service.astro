@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceAside from '../components/ServiceAside.astro';
+import { business, serviceAreaSummary } from '../data/business';
+import { serviceSchema, breadcrumbSchema } from '../lib/schema';
+
+const title = 'Plumbing & Heating Repairs and Service | Livingston, NJ';
+const description = `Water heater repair, boiler repair, annual heating service and plumbing repairs in Livingston, NJ. Licensed, owner operated. Call ${business.phoneDisplay}.`;
+const crumbs = [{ label: 'Repairs & Service' }];
+const areas = [
+  { h: 'Water heater repair', href: '/water-heater-repair/', items: ['No hot water on gas or electric units', 'Pilot will not stay lit, thermocouple replacement', 'Gas valves, thermostats and heating elements', 'Leaking fittings and relief valves', 'Sediment flush and anode rod replacement'] },
+  { h: 'Boiler and heating repair', href: '/boiler-repair/', items: ['No heat, ignition and pilot problems', 'Banging steam pipes and cold radiators', 'Circulators, zone valves and expansion tanks', 'Low water cutoffs and auto feeders', 'Annual boiler cleaning and tune-up'] },
+  { h: 'Plumbing repairs', href: '/plumbing-services/', items: ['Clogged drains and sewer backups', 'Leaking or dripping faucets and running toilets', 'Leaking and frozen pipes', 'Sump pump repair and replacement', 'Shower and tub valves, disposals, dishwashers'] },
+];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[
+    serviceSchema(Astro.site!, { name: 'Plumbing and Heating Repairs and Service', description, path: '/repairs-service/' }),
+    breadcrumbSchema(Astro.site!, crumbs, Astro.url.pathname),
+  ]}
+>
+  <Hero
+    compact
+    eyebrow="Repairs & service"
+    title="Plumbing & Heating Repairs in Livingston, NJ"
+    subtitle="Water heater repair, boiler repair, annual heating service and everyday plumbing repairs from a licensed plumber with 40+ years of experience."
+  />
+  <div class="container section two-col">
+    <article class="prose">
+      <Breadcrumbs items={crumbs} />
+      <h2>Fixed right, by the person you called</h2>
+      <p>Not every problem calls for new equipment. A lot of what we do is repair: getting the hot water back on, getting the heat running, stopping a leak, clearing a drain. When you call {business.shortName}, Allan answers, Allan shows up, and Allan does the work. No dispatcher, no trainee, no upsell.</p>
+      <p>We are a licensed and bonded New Jersey plumbing and heating contractor ({business.license}) and we service all makes and models, whether or not we installed them.</p>
+
+      {areas.map((a) => (
+        <>
+          <h2><a href={a.href} style="text-decoration:none">{a.h}</a></h2>
+          <ul class="checklist">{a.items.map((i) => <li>{i}</li>)}</ul>
+          <p><a href={a.href}>More about {a.h.toLowerCase()} →</a></p>
+        </>
+      ))}
+
+      <h2>Annual service keeps small problems small</h2>
+      <p>The cheapest repair is the one you never need. A fall boiler tune-up and a periodic water heater check catch worn parts, sediment and venting issues before they become a no-heat call in January or a flooded basement. If you want us to look over your system once a year, call and we will get you on the schedule.</p>
+
+      <h2>Honest advice on repair versus replacement</h2>
+      <p>Our rule of thumb: a water heater under 8 years old or a boiler under 20 is usually worth repairing. Past that, we weigh the repair cost against the age and condition of the unit and tell you what we would do in our own house. If replacement is the better answer, see our <a href="/water-heater-replacement/">water heater replacement</a> and <a href="/boiler-replacement/">boiler replacement</a> pages.</p>
+      <p>We serve {serviceAreaSummary}.</p>
+    </article>
+    <ServiceAside current="repairs-service" />
+  </div>
+  <CtaBand title="Something not working?" text={`Call ${business.phoneDisplay}. Water heaters, boilers and plumbing repaired by a licensed plumber, with honest advice on what is worth fixing.`} />
+</Base>

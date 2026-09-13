@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-new.png';
+import { business } from '../data/business';
+
+const nav = [
+  { href: '/water-heater-replacement/', label: 'Water Heaters' },
+  { href: '/boiler-replacement/', label: 'Boilers' },
+  { href: '/repairs-service/', label: 'Repairs' },
+  { href: '/plumbing-services/', label: 'Plumbing' },
+  { href: '/service-area/', label: 'Service Area' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
+const current = Astro.url.pathname;
+---
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar">
+  <div class="container topbar__inner">
+    <span>Licensed &amp; bonded · {business.license} · {business.yearsExperience}+ years of experience</span>
+    <a href={`tel:${business.phoneTel}`}>Call {business.phoneDisplay}</a>
+  </div>
+</div>
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="brand" aria-label={`${business.name} home`}>
+      <Image src={logo} alt={`${business.name} Plumbing and Heating`} width="240" densities={[1, 2]} loading="eager" />
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </label>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={n.href} aria-current={current === n.href ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+        <li class="nav__cta"><a class="btn btn--primary" href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .skip { position: absolute; left: -999px; top: 0; background: #fff; padding: 8px; z-index: 100; }
+  .skip:focus { left: 8px; }
+  .topbar { background: var(--navy-dark); color: #fff; font-size: 0.85rem; }
+  .topbar__inner { display: flex; justify-content: space-between; gap: 12px; padding-block: 6px; flex-wrap: wrap; }
+  .topbar a { color: #fff; font-weight: 700; text-decoration: none; }
+  .header { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
+  .header__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+  .brand img { width: 200px; height: auto; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; align-items: center; }
+  .nav a { text-decoration: none; font-weight: 600; padding: 8px 10px; white-space: nowrap; border-radius: 6px; color: var(--ink); }
+  .nav a:hover, .nav a[aria-current="page"] { background: var(--bg-soft); color: var(--navy); }
+  .nav__cta a { color: #1a1a1a; margin-left: 8px; padding: 10px 16px; white-space: nowrap; }
+  .nav-toggle { display: none; }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
+  .nav-burger span { width: 26px; height: 3px; background: var(--navy); border-radius: 2px; }
+  @media (max-width: 1000px) {
+    .topbar__inner span { display: none; }
+    .topbar__inner { justify-content: center; }
+    .nav-burger { display: flex; }
+    .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .nav ul { flex-direction: column; align-items: stretch; padding: 10px 20px 16px; }
+    .nav a { display: block; padding: 12px; }
+    .nav__cta a { margin: 8px 0 0; text-align: center; justify-content: center; }
+    .nav-toggle:checked ~ .nav { display: block; }
+  }
+</style>

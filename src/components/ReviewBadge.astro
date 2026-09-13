@@ -1,0 +1,10 @@
+---
+import { business } from '../data/business';
+const hasRating = business.rating && business.reviewCount;
+---
+<a class="rating" href={business.googleMapsUrl} target="_blank" rel="noopener">
+  <span class="stars" aria-hidden="true">★★★★★</span>
+  {hasRating
+    ? <span>{business.rating} on Google from {business.reviewCount} reviews</span>
+    : <span>Read our reviews on Google</span>}
+</a>

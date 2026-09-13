@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import truck from '../assets/truck.jpg';
+import { business } from '../data/business';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle: string;
+  showImage?: boolean;
+  compact?: boolean;
+}
+const { eyebrow, title, subtitle, showImage = false, compact = false } = Astro.props;
+---
+<section class:list={['hero', { 'hero--compact': compact }]}>
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      {eyebrow && <p class="eyebrow eyebrow--light">{eyebrow}</p>}
+      <h1>{title}</h1>
+      <p class="hero__sub">{subtitle}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={`tel:${business.phoneTel}`}>Call {business.phoneDisplay}</a>
+        <a class="btn btn--outline" href="/contact/">Request Service</a>
+      </div>
+      <ul class="hero__trust">
+        <li>Licensed &amp; bonded</li>
+        <li>Owner operated</li>
+        <li>{business.yearsExperience}+ years experience</li>
+      </ul>
+    </div>
+    {showImage && (
+      <div class="hero__img">
+        <Image src={truck} alt={`${business.name} service truck in Livingston, NJ`} width={1200} widths={[480, 800, 1200]} sizes="(max-width: 900px) 100vw, 520px" loading="eager" fetchpriority="high" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero { background: linear-gradient(135deg, var(--navy-dark), var(--navy) 60%, #14507f); color: #fff; }
+  .hero__inner { display: grid; gap: 32px; padding-block: 64px; align-items: center; }
+  .hero--compact .hero__inner { padding-block: 44px; }
+  @media (min-width: 900px) { .hero__inner:has(.hero__img) { grid-template-columns: 1.1fr 1fr; } }
+  .hero h1 { color: #fff; margin-bottom: 0.4em; }
+  .hero__sub { font-size: 1.15rem; color: rgba(255,255,255,0.88); max-width: 620px; }
+  .eyebrow--light { color: var(--orange); }
+  .hero .btn--outline { color: #fff; border-color: #fff; }
+  .hero .btn--outline:hover { background: #fff; color: var(--navy); }
+  .hero__trust { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 0.95rem; color: rgba(255,255,255,0.85); }
+  .hero__trust li::before { content: "✓"; color: var(--orange); font-weight: 700; margin-right: 6px; }
+  .hero__img { border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .hero__img img { width: 100%; height: auto; }
+</style>
